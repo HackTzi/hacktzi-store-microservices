@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  platzi_store_products:
+    build: ./platzi_store_products
+    ports: 
+      - "4000:4000"
+    environment: 
+      - PORT=4000
+  db:
+    image: postgres:13
+    environment: 
+      - POSTGRES_DB=platzi-store-products-db
+      - POSTGRES_USER=platzi-store-products-user-db
+      - POSTGRES_PASSWORD=platzi-store-products-user-pw
+    ports: 
+      - "5432:5432"
+    volumes: 
+      - ./platzi_store_products-postgres:/var/lib/postgresql
+
