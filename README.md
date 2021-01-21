@@ -19,6 +19,8 @@
      - ...
      - ...
    - Technologies
+     - Docker
      - Node
      - Postgres
      - Nest.js
+     - Fastify
