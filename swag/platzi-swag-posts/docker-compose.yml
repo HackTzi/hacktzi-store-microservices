@@ -1,0 +1,14 @@
+version: '3.5'
+
+services:
+  mongdb:
+    image: mongo
+    ports:
+      - 27350:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - swag_mongodb:/data/db
+volumes:
+  swag_mongodb:
