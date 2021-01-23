@@ -10,7 +10,6 @@ export class PostsController {
 
   @Post()
   async create(@Body() data: CreatePostDto) {
-    console.log('🤫 Dante ➤ PostsController ➤ create ➤ data', data);
     return this.postsService.create(data);
   }
 }
