@@ -1,10 +1,10 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, QueryFailedError } from 'typeorm';
 import { Category } from '../entities/category.entity';
 import { PG_FOREIGN_KEY_VIOLATION  } from '@drdgvhbh/postgres-error-codes'
 import { log } from 'console';
-import { CategoryDto } from '../dtos/category.dto';
+import { CategoryDto, UpdateCategoryDto } from '../dtos/category.dto';
 
 @Injectable()
 export class CategoryService {
@@ -39,4 +39,25 @@ export class CategoryService {
         }
     }
 
+    async updateOne(id: number, body: UpdateCategoryDto): Promise<CategoryDto> {
+        const category = await this.categoryRepository.findOne(id)
+        if(!category) throw new NotFoundException(`Category id: ${id} doesn't exist`)
+        const editedCategory = Object.assign(category, body)
+        return this.categoryRepository.save(editedCategory)
+    }
+
+    async deleteOne(id: number): Promise<any> {
+        try {
+            const deletedCategory = await this.categoryRepository.delete(id)
+            return deletedCategory
+        }catch(err) {
+            log(err)
+            switch(err.code){
+                case PG_FOREIGN_KEY_VIOLATION:// TODO change custom message and code error for constrains
+                    throw new BadRequestException(err.detail)
+                default:
+                    throw new InternalServerErrorException(err)
+            }
+        }
+    }
 }
