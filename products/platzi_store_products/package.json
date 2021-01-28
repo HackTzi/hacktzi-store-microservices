@@ -18,16 +18,29 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "migrations:generate": "npm run typeorm -- migration:generate -n",
+    "migrations:run": "npm run typeorm -- migration:run",
+    "migrations:drop": "npm run typeorm -- schema:drop",
+    "migrations:show": "npm run typeorm -- migration:show"
   },
   "dependencies": {
+    "@drdgvhbh/postgres-error-codes": "0.0.6",
     "@nestjs/common": "^7.5.1",
     "@nestjs/config": "^0.6.1",
     "@nestjs/core": "^7.5.1",
     "@nestjs/platform-fastify": "^7.6.5",
+    "@nestjs/swagger": "^4.7.12",
+    "@nestjs/typeorm": "^7.1.5",
+    "class-transformer": "^0.3.2",
+    "class-validator": "^0.13.1",
+    "fastify-swagger": "^4.0.0",
+    "pg": "^8.5.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.6.3"
+    "rxjs": "^6.6.3",
+    "typeorm": "^0.2.30"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.1",
