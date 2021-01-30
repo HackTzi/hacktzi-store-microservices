@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { SwagController } from './swag.controller';
 import { SwagService } from './swag.service';
 import { Swag, PostSchema } from './schemas/swag.schema';
+import { HashtagProvider } from './providers/hashtag.provider';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { Swag, PostSchema } from './schemas/swag.schema';
       },
     ]),
   ],
-  providers: [SwagService],
+  providers: [SwagService, HashtagProvider],
   controllers: [SwagController],
 })
 export class SwagModule {}

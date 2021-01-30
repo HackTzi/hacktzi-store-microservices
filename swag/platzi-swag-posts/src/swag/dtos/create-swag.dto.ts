@@ -12,10 +12,7 @@ import {
 import { CreateSwagImageDto } from './create-swag-image.dto';
 
 export class CreateSwagDto {
-  @ApiPropertyOptional({
-    default: '',
-  })
-  @IsOptional()
+  @ApiProperty()
   @IsString()
   description: string;
 
