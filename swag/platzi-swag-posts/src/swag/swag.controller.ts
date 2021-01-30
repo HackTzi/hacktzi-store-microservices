@@ -1,21 +1,26 @@
 import {
-  Body, Controller, Delete,
+  Body,
+  Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
   Param,
-  Patch, Post
+  ParseArrayPipe,
+  Patch,
+  Post,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateSwagDto } from './dtos/create-swag.dto';
 import { SwagService } from './swag.service';
 import { UpdateSwagDto } from './dtos/update-swag.dto';
+import { ParseTagsPipe } from './pipes/parse-tags.pipe';
 
 @ApiTags('Swags')
 @Controller('swags')
 export class SwagController {
   constructor(private readonly swagService: SwagService) {}
-
 
   @Post()
   async create(@Body() data: CreateSwagDto) {
@@ -23,8 +28,14 @@ export class SwagController {
   }
 
   @Get()
-  async find() {
-    return this.swagService.find();
+  async find(
+    @Query('tags', new ParseTagsPipe({ optional: true })) tags: string[],
+  ) {
+    console.log('🤫 Dante ➤ SwagController ➤ find ➤ tags', tags);
+
+    return this.swagService.find({
+      tags,
+    });
   }
 
   @Get('/:id')

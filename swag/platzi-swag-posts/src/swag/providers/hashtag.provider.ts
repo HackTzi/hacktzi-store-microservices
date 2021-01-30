@@ -12,10 +12,12 @@ export class HashtagProvider {
   }
 
   private uniques(tags: string[]): string[] {
-    return Array.from(new Set(tags.map((tag) => this.slugify(tag))));
+    return Array.from(
+      new Set(tags.map((tag) => HashtagProvider.slugifyTag(tag))),
+    );
   }
 
-  private slugify(value: string): string {
+  static slugifyTag(value: string): string {
     return slugify(value, {
       replacement: '_',
       lower: true,
