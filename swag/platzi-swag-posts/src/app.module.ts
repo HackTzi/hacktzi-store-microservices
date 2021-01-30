@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { PostsModule } from './posts/posts.module';
+import { SwagModule } from './swag/swag.module';
 
 @Module({
   imports: [
-    PostsModule,
+    SwagModule,
     MongooseModule.forRoot('mongodb://localhost:27350', {
       auth: {
         user: 'admin',
