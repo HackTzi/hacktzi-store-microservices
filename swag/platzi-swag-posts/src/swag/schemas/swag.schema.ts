@@ -1,24 +1,24 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { PostImageSchema } from './post-image.schema';
+import { SwagImageSchema } from './swag-image.schema';
 
-export type PostDocument = Post & Document;
+export type SwagDocument = Swag & Document;
 
 @Schema({
   timestamps: true,
 })
-export class Post {
+export class Swag {
   @Prop({ default: '' })
   description: string;
 
   @Prop({ required: true })
-  image: PostImageSchema;
+  image: SwagImageSchema;
 
   @Prop({ type: [String], default: [] })
   tags: string[];
 
-  @Prop({ type: [String], default: [] })
-  linkedProducts: string[];
+  @Prop({ type: [Number], default: [] })
+  linkedProducts: number[];
 
   @Prop({ default: true })
   commentsEnabled: boolean;
@@ -30,4 +30,4 @@ export class Post {
   likedBy: string[];
 }
 
-export const PostSchema = SchemaFactory.createForClass(Post);
+export const PostSchema = SchemaFactory.createForClass(Swag);

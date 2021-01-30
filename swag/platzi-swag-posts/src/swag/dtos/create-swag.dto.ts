@@ -1,15 +1,17 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
+  IsArray,
   IsBoolean,
+  IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { CreatePostImageDto } from './create-post-image.dto';
+import { CreateSwagImageDto } from './create-swag-image.dto';
 
-export class CreatePostDto {
+export class CreateSwagDto {
   @ApiPropertyOptional({
     default: '',
   })
@@ -19,9 +21,9 @@ export class CreatePostDto {
 
   @IsNotEmpty()
   @ApiProperty()
-  @Type(() => CreatePostImageDto)
+  @Type(() => CreateSwagImageDto)
   @ValidateNested()
-  image: CreatePostImageDto;
+  image: CreateSwagImageDto;
 
   @ApiPropertyOptional({
     default: true,
@@ -30,4 +32,10 @@ export class CreatePostDto {
   @IsOptional()
   @IsBoolean()
   commentsEnabled: boolean;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsArray()
+  @IsInt({ each: true })
+  linkedProducts: number[];
 }
