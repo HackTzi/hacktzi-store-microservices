@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, LoggerService } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateSwagDto } from './dtos/create-swag.dto';
@@ -25,11 +25,14 @@ export class SwagService {
   }
 
   async find(options: FilterOptions) {
-    const query = this.swagModel.find();
+    console.log('Filter swag by ', { options },)
 
-    if (options.tags) {
-      query.where('tags').in(options.tags);
-    }
+    const query = this.swagModel.find();
+    if (options.tags) query.where('tags').in(options.tags);
+    if (options.by) query.where('createdBy.id', options.by)
+
+    // Sort by created date in desc order by default
+    query.sort('-createdAt')
 
     return query.lean();
   }

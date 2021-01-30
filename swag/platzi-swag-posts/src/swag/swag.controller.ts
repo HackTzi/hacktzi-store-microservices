@@ -30,11 +30,11 @@ export class SwagController {
   @Get()
   async find(
     @Query('tags', new ParseTagsPipe({ optional: true })) tags: string[],
+    @Query('by') by: string,
   ) {
-    console.log('🤫 Dante ➤ SwagController ➤ find ➤ tags', tags);
-
     return this.swagService.find({
       tags,
+      by,
     });
   }
 
