@@ -10,6 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { CreateSwagImageDto } from './create-swag-image.dto';
+import { CreateSwagLocationDto } from './create-swag-location.dto';
 
 export class CreateSwagDto {
   @ApiProperty()
@@ -35,4 +36,9 @@ export class CreateSwagDto {
   @IsArray()
   @IsInt({ each: true })
   linkedProducts: number[];
+
+  @ApiProperty()
+  @ValidateNested()
+  @Type(() => CreateSwagLocationDto)
+  location: CreateSwagLocationDto;
 }
