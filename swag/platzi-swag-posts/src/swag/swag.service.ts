@@ -25,14 +25,14 @@ export class SwagService {
   }
 
   async find(options: FilterOptions) {
-    console.log('Filter swag by ', { options },)
+    console.log('Filter swag by ', { options });
 
     const query = this.swagModel.find();
     if (options.tags) query.where('tags').in(options.tags);
-    if (options.by) query.where('createdBy.id', options.by)
+    if (options.by) query.where('createdBy.id', options.by);
 
     // Sort by created date in desc order by default
-    query.sort('-createdAt')
+    query.sort('-createdAt');
 
     return query.lean();
   }

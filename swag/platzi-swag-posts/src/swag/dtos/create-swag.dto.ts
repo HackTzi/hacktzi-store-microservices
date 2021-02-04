@@ -37,9 +37,8 @@ export class CreateSwagDto {
   @IsInt({ each: true })
   linkedProducts: number[];
 
-
   @ApiProperty()
   @ValidateNested()
   @Type(() => CreateSwagLocationDto)
-  location: CreateSwagLocationDto
+  location: CreateSwagLocationDto;
 }

@@ -1,5 +1,5 @@
-import { IsArray, IsNumber, IsString } from "class-validator";
-import { LocationType } from "../enums/location-type.enum";
+import { IsArray, IsNumber, IsString } from 'class-validator';
+import { LocationType } from '../enums/location-type.enum';
 
 export class CreateSwagLocationDto {
   @IsString()
@@ -10,5 +10,5 @@ export class CreateSwagLocationDto {
 
   @IsArray()
   @IsNumber(undefined, { each: true })
-  coordinates: [Number]
+  coordinates: [number];
 }

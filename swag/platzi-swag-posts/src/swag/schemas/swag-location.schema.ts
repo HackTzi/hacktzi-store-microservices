@@ -14,6 +14,5 @@ export class SwagLocationSchema {
   name: string;
 
   @Prop({ required: true, type: [Number] })
-  coordinates: [Number]
+  coordinates: [Number];
 }
-

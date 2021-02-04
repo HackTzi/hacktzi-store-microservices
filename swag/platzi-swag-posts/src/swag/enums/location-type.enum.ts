@@ -1,3 +1,3 @@
 export enum LocationType {
-  Point = 'Point'
+  Point = 'Point',
 }

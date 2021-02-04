@@ -34,7 +34,7 @@ export class Swag {
   likedBy: string[];
 
   @Prop({ required: true })
-  location: SwagLocationSchema
+  location: SwagLocationSchema;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Swag);
