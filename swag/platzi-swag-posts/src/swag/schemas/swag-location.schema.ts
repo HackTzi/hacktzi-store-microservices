@@ -7,12 +7,16 @@ import { LocationType } from '../enums/location-type.enum';
  */
 @Schema({ _id: false })
 export class SwagLocationSchema {
-  @Prop({ required: true, enum: Object.keys(LocationType) })
+  @Prop({
+    required: true,
+    enum: Object.keys(LocationType),
+    default: LocationType.Point,
+  })
   type: LocationType;
 
   @Prop({ required: true })
   name: string;
 
   @Prop({ required: true, type: [Number] })
-  coordinates: [Number];
+  coordinates: [number];
 }
