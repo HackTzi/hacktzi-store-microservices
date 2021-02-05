@@ -1,4 +1,4 @@
-name: Swag Microservice CI
+name: Swag MS - CI
 
 on:
   push:
