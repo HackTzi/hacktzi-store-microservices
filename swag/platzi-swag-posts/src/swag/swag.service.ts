@@ -13,6 +13,7 @@ import { UpdateSwagDto } from './dtos/update-swag.dto';
 import { FilterOptions } from './interfaces/filter-options';
 import { HashtagProvider } from './providers/hashtag.provider';
 import { Swag, SwagDocument } from './schemas/swag.schema';
+import { ObjectID } from 'bson';
 
 @Injectable()
 export class SwagService {
@@ -100,8 +101,26 @@ export class SwagService {
     return this.swagModel.deleteOne({ _id: id }).lean();
   }
 
-  private async ensureSwagExist(id: string) {
-    const swag = this.swagModel.findById(id).lean();
+  async comment(
+    operation: 'add' | 'remove',
+    swagId: ObjectID,
+    commentId: ObjectID,
+  ) {
+    return this.swagModel.updateOne(
+      {
+        _id: swagId,
+      },
+      {
+        [operation === 'add' ? '$addToSet' : '$pull']: {
+          comments: commentId,
+        },
+      },
+    );
+  }
+
+  async ensureSwagExist(id: string) {
+    const swag = await this.swagModel.findById(id, { _id: 1 }).lean();
+
     if (!swag) {
       throw new NotFoundException('The Swag does not exist');
     }

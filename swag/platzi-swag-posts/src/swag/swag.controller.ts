@@ -15,6 +15,7 @@ import { CreateSwagDto } from './dtos/create-swag.dto';
 import { ReactionReqDto } from './dtos/reaction-req.dto';
 import { ReactionResDto } from './dtos/reaction-res.dto';
 import { UpdateSwagDto } from './dtos/update-swag.dto';
+import { ParseObjectIdPipe } from './pipes/parse-objectid.pipe';
 import { ParseTagsPipe } from './pipes/parse-tags.pipe';
 import { SwagService } from './swag.service';
 
@@ -40,12 +41,15 @@ export class SwagController {
   }
 
   @Get('/:id')
-  async findById(@Param('id') id: string) {
+  async findById(@Param('id', ParseObjectIdPipe) id: string) {
     return this.swagService.findById(id);
   }
 
   @Patch('/:id')
-  async update(@Param('id') id: string, @Body() data: UpdateSwagDto) {
+  async update(
+    @Param('id', ParseObjectIdPipe) id: string,
+    @Body() data: UpdateSwagDto,
+  ) {
     return this.swagService.update(id, data);
   }
 
@@ -57,7 +61,7 @@ export class SwagController {
   @ApiOkResponse({ type: ReactionResDto })
   @HttpCode(HttpStatus.OK)
   reaction(
-    @Param('id') id: string,
+    @Param('id', ParseObjectIdPipe) id: string,
     @Body() data: ReactionReqDto,
     @Query('userId') userId = 'userId',
   ): Promise<ReactionResDto> {
@@ -66,7 +70,7 @@ export class SwagController {
 
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async delete(@Param('id') id: string) {
+  async delete(@Param('id', ParseObjectIdPipe) id: string) {
     return this.swagService.deleteById(id);
   }
 }

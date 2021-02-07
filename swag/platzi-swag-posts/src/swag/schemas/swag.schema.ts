@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ObjectID } from 'bson';
 import { Document, SchemaTypes } from 'mongoose';
+import { Comment } from '../../comments/schemas/comment.schema';
 import { SwagImageSchema } from './swag-image.schema';
 import { SwagLocationSchema } from './swag-location.schema';
 
@@ -27,8 +29,11 @@ export class Swag {
   @Prop({ default: true })
   commentsEnabled: boolean;
 
-  @Prop({ type: [String], default: [] })
-  comments: string[];
+  @Prop({
+    type: [{ type: SchemaTypes.ObjectId, ref: 'Comment' }],
+    default: [],
+  })
+  comments: ObjectID[];
 
   @Prop({ type: [String], default: [] })
   likedBy: string[];
@@ -37,4 +42,4 @@ export class Swag {
   location: SwagLocationSchema;
 }
 
-export const PostSchema = SchemaFactory.createForClass(Swag);
+export const SwagSchema = SchemaFactory.createForClass(Swag);
