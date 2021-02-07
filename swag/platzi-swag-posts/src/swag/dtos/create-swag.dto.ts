@@ -25,7 +25,7 @@ export class CreateSwagDto {
 
   @ApiPropertyOptional({
     default: true,
-    description: 'Whether or not users can comment in this post',
+    description: 'Whether or not users can comment in this swag',
   })
   @IsOptional()
   @IsBoolean()
