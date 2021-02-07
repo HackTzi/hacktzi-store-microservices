@@ -7,7 +7,11 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
 } from '@nestjs/common';
+import { ApiOkResponse, ApiParam } from '@nestjs/swagger';
+import { ReactionReqDto } from 'src/shared/dtos/reaction-req.dto';
+import { ReactionResDto } from 'src/shared/dtos/reaction-res.dto';
 import { ParseObjectIdPipe } from '../swag/pipes/parse-objectid.pipe';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dtos/create-comment.dto';
@@ -29,7 +33,22 @@ export class CommentsController {
     return this.commentsService.find(swagId);
   }
 
-  @Delete('/:id')
+  @Post('/:commentId/reaction')
+  @ApiParam({
+    name: 'commentId',
+    description: 'Comment id',
+  })
+  @ApiOkResponse({ type: ReactionResDto })
+  @HttpCode(HttpStatus.OK)
+  reaction(
+    @Param('commentId', ParseObjectIdPipe) commentId,
+    @Body() data: ReactionReqDto,
+    @Query('userId') userId = 'userId',
+  ): Promise<ReactionResDto> {
+    return this.commentsService.reaction(commentId, data, userId);
+  }
+
+  @Delete('/:id/reaction')
   @HttpCode(HttpStatus.NO_CONTENT)
   async delete(
     @Param('swagId', ParseObjectIdPipe) swagId,

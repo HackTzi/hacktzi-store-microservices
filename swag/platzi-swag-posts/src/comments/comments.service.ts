@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  NotImplementedException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { SwagService } from '../swag/swag.service';
@@ -7,6 +11,8 @@ import { CreateCommentDto } from './dtos/create-comment.dto';
 import { Comment, CommentDocument } from './schemas/comment.schema';
 import { ObjectID } from 'bson';
 import * as assert from 'assert';
+import { ReactionReqDto } from 'src/shared/dtos/reaction-req.dto';
+import { ReactionResDto } from 'src/shared/dtos/reaction-res.dto';
 
 @Injectable()
 export class CommentsService {
@@ -38,6 +44,39 @@ export class CommentsService {
     query.sort('-createdAt');
 
     return query.lean();
+  }
+
+  async reaction(
+    commentId: ObjectID,
+    { type, value }: ReactionReqDto,
+    userId: string,
+  ): Promise<ReactionResDto> {
+    if (type === 'like') {
+      const comment = await this.commentModel.findOneAndUpdate(
+        {
+          _id: commentId,
+        },
+        {
+          // add or remove user reaction
+          [value ? '$addToSet' : '$pull']: {
+            likedBy: userId,
+          },
+        },
+        {
+          new: true,
+        },
+      );
+
+      if (!comment) {
+        throw new NotFoundException('The Comment does not exist');
+      }
+
+      return {
+        totalLikes: comment.likedBy.length,
+      };
+    }
+
+    throw new NotImplementedException();
   }
 
   async deleteById(swagId: ObjectID, commentId: ObjectID) {
