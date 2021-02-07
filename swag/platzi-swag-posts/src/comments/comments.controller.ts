@@ -15,6 +15,7 @@ import { ReactionResDto } from 'src/shared/dtos/reaction-res.dto';
 import { ParseObjectIdPipe } from '../shared/pipes/parse-objectid.pipe';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dtos/create-comment.dto';
+import { SortBy } from './enums/sort-by.enum';
 import { ParseSortPipe } from './pipes/parse-sort-pipe';
 
 @Controller('swags/:swagId/comments')
@@ -32,7 +33,7 @@ export class CommentsController {
   @Get()
   async find(
     @Param('swagId', ParseObjectIdPipe) swagId,
-    @Query('sortBy', ParseSortPipe) sortBy,
+    @Query('sortBy', ParseSortPipe) sortBy = SortBy.CreatedAt,
   ) {
     return this.commentsService.find(swagId, sortBy);
   }
@@ -52,7 +53,7 @@ export class CommentsController {
     return this.commentsService.reaction(commentId, data, userId);
   }
 
-  @Delete('/:id/reaction')
+  @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async delete(
     @Param('swagId', ParseObjectIdPipe) swagId,

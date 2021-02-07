@@ -36,6 +36,11 @@ export class CommentsService {
   }
 
   async find(swagId: ObjectID, sortBy: SortBy) {
+    console.log('[CommentsService] Findind comments for', {
+      swagId,
+      sortBy,
+    });
+
     await this.ensureSwagExist(swagId);
 
     const query = this.commentModel.find({
@@ -68,6 +73,8 @@ export class CommentsService {
       }
 
       let totalLikes = comment.totalLikes;
+      assert(totalLikes !== undefined, 'Comment dont have totalLikes');
+
       let operation;
       if (add) {
         operation = '$addToSet';
