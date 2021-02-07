@@ -12,9 +12,10 @@ import {
 import { ApiOkResponse, ApiParam } from '@nestjs/swagger';
 import { ReactionReqDto } from 'src/shared/dtos/reaction-req.dto';
 import { ReactionResDto } from 'src/shared/dtos/reaction-res.dto';
-import { ParseObjectIdPipe } from '../swag/pipes/parse-objectid.pipe';
+import { ParseObjectIdPipe } from '../shared/pipes/parse-objectid.pipe';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dtos/create-comment.dto';
+import { ParseSortPipe } from './pipes/parse-sort-pipe';
 
 @Controller('swags/:swagId/comments')
 export class CommentsController {
@@ -29,8 +30,11 @@ export class CommentsController {
   }
 
   @Get()
-  async find(@Param('swagId', ParseObjectIdPipe) swagId) {
-    return this.commentsService.find(swagId);
+  async find(
+    @Param('swagId', ParseObjectIdPipe) swagId,
+    @Query('sortBy', ParseSortPipe) sortBy,
+  ) {
+    return this.commentsService.find(swagId, sortBy);
   }
 
   @Post('/:commentId/reaction')

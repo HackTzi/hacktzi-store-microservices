@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 import { ObjectID } from 'bson';
 import { Document, SchemaTypes } from 'mongoose';
 
@@ -18,8 +19,11 @@ export class Comment {
   @Prop({ required: true, ref: 'Swag', type: SchemaTypes.ObjectId, index: 1 })
   swagId: ObjectID | string;
 
-  @Prop({ type: [String], default: [] })
+  @Prop({ type: [String], default: [], required: true })
   likedBy: string[];
+
+  @Prop({ required: true, default: 0 })
+  totalLikes: number;
 }
 
 export const CommentSchema = SchemaFactory.createForClass(Comment);

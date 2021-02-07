@@ -13,6 +13,7 @@ import { ObjectID } from 'bson';
 import * as assert from 'assert';
 import { ReactionReqDto } from 'src/shared/dtos/reaction-req.dto';
 import { ReactionResDto } from 'src/shared/dtos/reaction-res.dto';
+import { SortBy } from './enums/sort-by.enum';
 
 @Injectable()
 export class CommentsService {
@@ -34,45 +35,65 @@ export class CommentsService {
     return comment;
   }
 
-  async find(swagId: ObjectID) {
+  async find(swagId: ObjectID, sortBy: SortBy) {
     await this.ensureSwagExist(swagId);
 
     const query = this.commentModel.find({
       swagId,
     });
 
-    query.sort('-createdAt');
+    query.sort(`-${sortBy}`);
 
     return query.lean();
   }
 
   async reaction(
     commentId: ObjectID,
-    { type, value }: ReactionReqDto,
+    { type, value: add }: ReactionReqDto,
     userId: string,
   ): Promise<ReactionResDto> {
+    const comment = await this.ensureCommentExist(
+      commentId,
+      'likedBy totalLikes',
+    );
+
     if (type === 'like') {
-      const comment = await this.commentModel.findOneAndUpdate(
+      const userAlreadyLiked = comment.likedBy.includes(userId);
+
+      /** User aready liked or no liked */
+      if (add === userAlreadyLiked) {
+        return {
+          totalLikes: comment.likedBy.length,
+        };
+      }
+
+      let totalLikes = comment.totalLikes;
+      let operation;
+      if (add) {
+        operation = '$addToSet';
+        totalLikes++;
+      } else {
+        operation = '$pull';
+        totalLikes--;
+      }
+
+      await this.commentModel.updateOne(
         {
           _id: commentId,
         },
         {
           // add or remove user reaction
-          [value ? '$addToSet' : '$pull']: {
+          [operation]: {
             likedBy: userId,
           },
-        },
-        {
-          new: true,
+          $set: {
+            totalLikes,
+          },
         },
       );
 
-      if (!comment) {
-        throw new NotFoundException('The Comment does not exist');
-      }
-
       return {
-        totalLikes: comment.likedBy.length,
+        totalLikes,
       };
     }
 
@@ -87,14 +108,15 @@ export class CommentsService {
     await this.swagService.comment('remove', swagId, commentId);
   }
 
-  async ensureCommentExist(commentId: ObjectID) {
+  async ensureCommentExist(commentId: ObjectID, projection?: any) {
     const comment = await this.commentModel
-      .findById(commentId, { _id: 1 })
+      .findById(commentId, projection ?? { _id: 1 })
       .lean();
 
     if (!comment) {
       throw new NotFoundException('The Comment does not exist');
     }
+    return comment;
   }
 
   ensureSwagExist(swagId: ObjectID) {
