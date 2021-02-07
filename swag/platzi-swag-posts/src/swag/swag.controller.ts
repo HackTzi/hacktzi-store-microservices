@@ -12,10 +12,10 @@ import {
 } from '@nestjs/common';
 import { ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 import { CreateSwagDto } from './dtos/create-swag.dto';
-import { ReactionReqDto } from './dtos/reaction-req.dto';
-import { ReactionResDto } from './dtos/reaction-res.dto';
+import { ReactionReqDto } from '../shared/dtos/reaction-req.dto';
+import { ReactionResDto } from '../shared/dtos/reaction-res.dto';
 import { UpdateSwagDto } from './dtos/update-swag.dto';
-import { ParseObjectIdPipe } from './pipes/parse-objectid.pipe';
+import { ParseObjectIdPipe } from '../shared/pipes/parse-objectid.pipe';
 import { ParseTagsPipe } from './pipes/parse-tags.pipe';
 import { SwagService } from './swag.service';
 
