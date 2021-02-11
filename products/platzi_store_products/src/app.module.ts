@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DepartmentModule } from './department/department.module';
+import { ProductModule } from './product/product.module';
+import { ProductSubscriber } from './product/product.subscriber';
 
 
 @Module({
@@ -15,11 +17,13 @@ import { DepartmentModule } from './department/department.module';
       password: 'platzi-store-products-user-pw',
       database: 'platzi-store-products-db',
       entities: ['dist/**/*.entity{.ts,.js}'],
+      subscribers: [ProductSubscriber],
       synchronize: false,
       retryDelay: 6000,
       retryAttempts: 10
     }),
-    DepartmentModule
+    DepartmentModule,
+    ProductModule
   ],
   controllers: [],
   providers: [],
