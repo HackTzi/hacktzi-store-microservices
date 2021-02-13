@@ -3,8 +3,12 @@ name: Swag MS - CI
 on:
   push:
     branches: [main]
+    paths:
+      - 'swag/platzi-swag-posts/**'
   pull_request:
     branches: [main]
+    paths:
+      - 'swag/platzi-swag-posts/**'
 
 jobs:
   test:
