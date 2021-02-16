@@ -1,4 +1,4 @@
-<h1 align="center">👨‍💻 Platzi Store Microservices 👩‍💻</h1>
+<h1 align="center">👨‍💻 Hackzi Store Microservices 👩‍💻</h1>
 <p align="center">Description....<br><small>A Project to Hacktzi Community</small></p>
 
 ## Microservices

@@ -4,11 +4,11 @@ on:
   push:
     branches: [main]
     paths:
-      - 'swag/platzi-swag-posts/**'
+      - "swags/**"
   pull_request:
     branches: [main]
     paths:
-      - 'swag/platzi-swag-posts/**'
+      - "swags/**"
 
 jobs:
   test:
@@ -16,7 +16,7 @@ jobs:
     timeout-minutes: 5 # Reasonable time for tests to finish correctly
     defaults:
       run:
-        working-directory: swag/platzi-swag-posts
+        working-directory: swags/hacktzi-swag-posts
     strategy:
       matrix:
         node-version: [12.x]
