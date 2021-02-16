@@ -1,5 +1,4 @@
-# Platzi-Swag microservice
-
+# Hacktzi-Swags microservice
 
 ## 🚀 Run
 
@@ -9,11 +8,8 @@
 npm install
 ```
 
-
 **Run**
 
 ```
 npm run start:dev
 ```
-
-
