@@ -1,12 +1,16 @@
 version: "3"
 services:
-  hacktzi_store_products:
+  platzi_store_products:
     build:
       context: ./hacktzi_store_products
     ports:
-      - "4000:4000"
-    environment: 
-      - PORT=4000
+      - "80"
+    networks:
+      - default
+      - myserver_default
+    environment:
+      - VIRTUAL_HOST=api.hacktzi.tk
+      - PORT=80
       - DB_HOST=db
       - DB_NAME=hacktzi-store-products-db
       - DB_USER=hacktzi-store-products-user-db
@@ -19,7 +23,7 @@ services:
     image: postgres:13
     restart: always
     ports: 
-      - "5432:5432"
+      - "5432"
     environment:
       - POSTGRES_DB=hacktzi-store-products-db
       - POSTGRES_USER=hacktzi-store-products-user-db
