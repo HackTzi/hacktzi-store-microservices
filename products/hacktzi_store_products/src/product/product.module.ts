@@ -11,8 +11,16 @@ import { AttributeService } from './services/attributes.service';
 import { AttributeCOntroller } from './controllers/attributes.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product, ProductVariation, VariationAttribute, Attribute, Picture])],
+  imports: [
+    TypeOrmModule.forFeature([
+      Product,
+      ProductVariation,
+      VariationAttribute,
+      Attribute,
+      Picture,
+    ]),
+  ],
   providers: [ProductService, AttributeService],
-  controllers: [ProductController, AttributeCOntroller]
+  controllers: [ProductController, AttributeCOntroller],
 })
 export class ProductModule {}

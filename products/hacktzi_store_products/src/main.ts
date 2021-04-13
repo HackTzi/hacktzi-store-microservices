@@ -8,14 +8,19 @@ import {
 } from '@nestjs/platform-fastify';
 
 async function bootstrap() {
-  const PORT = process.env.PORT
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({logger: true}));
-  
-  app.useGlobalPipes(new ValidationPipe(
-    {
-      whitelist: true
-    }
-  ));
+  const PORT = process.env.PORT;
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter({ logger: true }),
+  );
+  app.enableCors({
+    origin: ['http://localhost:8080'],
+  });
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+    }),
+  );
   const config = new DocumentBuilder()
     .setTitle('Products Service')
     .setDescription('Products/Category service')
@@ -25,6 +30,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  await app.listen(PORT || 3000, '0.0.0.0');
+  await app.listen(PORT || 4000, '0.0.0.0');
 }
 bootstrap();

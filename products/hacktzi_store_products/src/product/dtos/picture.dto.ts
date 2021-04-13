@@ -1,27 +1,32 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { IsNumber, IsOptional, IsString } from "class-validator"
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class PictureDto {
-    @ApiProperty({
-        required: false        
-    })
-    @IsNumber()
-    @IsOptional()
-    id?: number
+  //TODO: add
+  @ApiProperty({
+    required: false,
+  })
+  @IsNumber()
+  @IsOptional()
+  id?: number;
 
-    @ApiProperty()
-    @IsString()
-    picture_id: string
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  picture_id: string;
 
-    @ApiProperty()
-    @IsString()
-    permalink: string
-    
-    @ApiProperty()
-    @IsString()
-    tumbnail: string
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  permalink: string;
 
-    @ApiProperty()
-    @IsString()
-    mime_type: string
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  thumbnail: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  mime_type: string;
 }

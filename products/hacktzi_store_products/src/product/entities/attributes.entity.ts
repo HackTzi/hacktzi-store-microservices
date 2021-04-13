@@ -1,20 +1,19 @@
-import { Column, Entity, Index, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Attribute {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number
+  @Column()
+  @Index()
+  type: string;
 
-    @Column()
-    @Index()
-    type: string
+  //info
 
-    //info
+  @Column()
+  name: string;
 
-    @Column()
-    name: string
-
-    @Column()
-    value: string
+  @Column()
+  value: string;
 }

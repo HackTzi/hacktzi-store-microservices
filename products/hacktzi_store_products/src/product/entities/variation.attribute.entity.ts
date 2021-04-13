@@ -1,39 +1,48 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Attribute } from "./attributes.entity";
-import { ProductVariation } from "./product.variations.entity";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Attribute } from './attributes.entity';
+import { ProductVariation } from './product.variations.entity';
 
 @Entity()
 export class VariationAttribute {
-    @PrimaryGeneratedColumn()
-    id: number
-    //price
-    @Column()
-    price: number
+  @PrimaryGeneratedColumn()
+  id: number;
+  //price
+  @Column()
+  price: number;
 
-    //quantities
+  //quantities
 
-    @Column()
-    available_quantity: number
+  @Column()
+  available_quantity: number;
 
-    @Column()
-    sold_quantity: number
+  @Column({ default: 0 })
+  sold_quantity: number;
 
-    //info
+  //info
 
-    @Column()
-    name: string
+  @Column()
+  name: string;
 
-    @Column({nullable: true})
-    picture_id: string
+  @Column({ nullable: true })
+  picture_id: string;
 
-    //Relations
+  //Relations
 
-    @ManyToOne(() => ProductVariation, productVariation => productVariation.variation_attributes, {onDelete: 'CASCADE'})
-    @JoinColumn()
-    productVariation: ProductVariation
+  @ManyToOne(
+    () => ProductVariation,
+    (productVariation) => productVariation.variation_attributes,
+    { onDelete: 'CASCADE' },
+  )
+  @JoinColumn()
+  productVariation: ProductVariation;
 
-    @ManyToOne(() => Attribute, {cascade: true, eager: true})
-    @JoinColumn()
-    attribute: Attribute 
-    
+  @ManyToOne(() => Attribute, { cascade: true, eager: true })
+  @JoinColumn()
+  attribute: Attribute;
 }

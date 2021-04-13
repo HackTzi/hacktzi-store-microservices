@@ -1,46 +1,50 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
-import { IsNotEmptyObject, IsNumber, IsNotEmpty, IsString, IsOptional, IsNumberString, ValidateNested } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import {
+  IsNotEmptyObject,
+  IsNumber,
+  IsNotEmpty,
+  IsString,
+  IsOptional,
+  ValidateNested,
+} from 'class-validator';
 
 class DepartmentCategoryDto {
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsNumber()
-    id: number
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsNumber()
+  id: number;
 }
 
-export class CategoryDto{
-    @ApiProperty()
-    @IsNumber()
-    @IsOptional()
-    id: number
+export class CategoryDto {
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  id: number;
 
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsString()
-    name: string
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  name: string;
 
-    @ApiProperty()
-    @IsString()
-    description: string
+  @ApiProperty()
+  @IsString()
+  description: string;
 
-    @ApiProperty()
-    @IsNotEmptyObject()
-    @ValidateNested()
-    @Type(() => DepartmentCategoryDto)
-    department: DepartmentCategoryDto
-
+  @ApiProperty()
+  @IsNotEmptyObject()
+  @ValidateNested()
+  @Type(() => DepartmentCategoryDto)
+  department: DepartmentCategoryDto;
 }
 
-export class UpdateCategoryDto{
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsString()
-    name: string
+export class UpdateCategoryDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  name: string;
 
-    @ApiProperty()
-    @IsString()
-    description: string
-
+  @ApiProperty()
+  @IsString()
+  description: string;
 }
-

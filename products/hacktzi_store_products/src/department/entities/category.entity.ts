@@ -1,17 +1,19 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm'
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Department } from './department.entity';
 
 @Entity()
 export class Category {
-    @PrimaryGeneratedColumn()
-    id: number;
-    
-    @Column({nullable: false})
-    name: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({nullable: false})
-    description: string;
+  @Column({ nullable: false })
+  name: string;
 
-    @ManyToOne(() => Department, department => department.categories, {nullable:  false})
-    department: Department
+  @Column({ nullable: false })
+  description: string;
+
+  @ManyToOne(() => Department, (department) => department.categories, {
+    nullable: false,
+  })
+  department: Department;
 }
