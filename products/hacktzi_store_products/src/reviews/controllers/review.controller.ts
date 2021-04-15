@@ -6,14 +6,14 @@ import { GeneralReviewService } from '../services/general.service';
 @ApiTags('reviews')
 @Controller('reviews')
 export class ReviewsController {
-  constructor(private GeneralReviewService: GeneralReviewService) {}
+  constructor(private generalReviewService: GeneralReviewService) {}
   /**
    * NOTE!!
    * this controller must be handle by payments & orders service
    */
   @Post()
   saveReview(@Body() review: ProductReviewTdo) {
-    return this.GeneralReviewService.saveGeneralReview(review);
+    return this.generalReviewService.saveGeneralReview(review);
   }
 
   @Put('/:id')
@@ -21,24 +21,24 @@ export class ReviewsController {
     @Body() updateReview: UpdateProductReviewTdo,
     @Param('id') id: number,
   ) {
-    return this.GeneralReviewService.updateGeneralReviews(id, updateReview);
+    return this.generalReviewService.updateGeneralReviews(id, updateReview);
   }
 
   @Get()
   getIndividualReview() {
-    return this.GeneralReviewService.findAll();
+    return this.generalReviewService.findAll();
   }
 
   @Get('/:id')
   getReviewByProduct(@Param('id') id: string) {
     //synchronized reviews per query
-    return this.GeneralReviewService.findByProductId(id);
+    return this.generalReviewService.findByProductId(id);
   }
 
   @Get('user/:id')
   getReviewByUser(@Param('id') id: string) {
     //TODO: Allow only publics reviews
-    return this.GeneralReviewService.findByUserId(id);
+    return this.generalReviewService.findByUserId(id);
   }
 
   // @Get('/questions')
