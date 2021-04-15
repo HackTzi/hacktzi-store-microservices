@@ -1,17 +1,24 @@
-import {
-  Injectable,
-  NotFoundException,
-  NotImplementedException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
+  orderByOptions,
   ProductDto,
   ProductGetResponseDto,
   ProductQueryDto,
+  sortOptions,
   UpdateProductDto,
 } from '../dtos/product.dto';
 import { Product } from '../entities/product.entity';
+
+const ALLOW_LOOKUP_PRODUCT = true;
+
+const DEFAULT_QUERIES = {
+  orderBy: orderByOptions.id,
+  sort: sortOptions.ASC,
+  skip: 0,
+  take: 10,
+};
 
 @Injectable()
 export class ProductService {
@@ -29,9 +36,12 @@ export class ProductService {
 
     const productResponse = await this.ProductRepository.findAndCount({
       where,
-      order: { [queries.orderBy || 'id']: queries.sort || 'ASC' },
-      skip: queries.skip || 0,
-      take: queries.quantity || 10,
+      order: {
+        [queries.orderBy || DEFAULT_QUERIES.orderBy]:
+          queries.sort || DEFAULT_QUERIES.sort,
+      },
+      skip: queries.skip || DEFAULT_QUERIES.skip,
+      take: queries.quantity || DEFAULT_QUERIES.take,
     });
 
     return {
@@ -108,13 +118,20 @@ export class ProductService {
   }
 
   async search(queries: ProductQueryDto, q: string) {
-    //TODO: Implement
-    throw new NotImplementedException();
-    const r = await this.ProductRepository.createQueryBuilder('product')
+    const order = queries.orderBy || DEFAULT_QUERIES.orderBy;
+    const sort = queries.sort || DEFAULT_QUERIES.sort;
+    const results = await this.ProductRepository.createQueryBuilder('product')
       .leftJoinAndSelect('product.pictures', 'pictures', null)
-      .where('title LIKE :searchTerm', { searchTerm: `%${q}%` })
+      .where('title ILIKE :searchTerm OR description ILIKE :searchTerm', {
+        searchTerm: `%${q}%`,
+        active: ALLOW_LOOKUP_PRODUCT,
+      })
+      .take(queries.quantity || DEFAULT_QUERIES.take)
+      .skip(queries.skip || DEFAULT_QUERIES.skip)
+      .orderBy({
+        ['product.' + order]: sort,
+      })
       .getManyAndCount();
-    console.log(r);
-    return r;
+    return results;
   }
 }

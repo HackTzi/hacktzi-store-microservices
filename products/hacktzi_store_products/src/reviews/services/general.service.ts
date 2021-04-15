@@ -105,7 +105,6 @@ export class GeneralReviewService {
 
   diffDays(createdDate): number {
     const timeNow: number = new Date().getTime();
-    const created: number = new Date(createdDate).getTime();
     const diffTime: number = timeNow - createdDate;
     const f: number = diffTime / (1000 * 3600 * 24);
     return Math.round(f);
